@@ -12,258 +12,30 @@
 </head>
 <body>
 
+<script src="boot.js"></script>
+<script src="menu.js"></script>
+<script src="game.js"></script>
 <script type="text/javascript">
+  console.clear();
+  var config = {
+      type: Phaser.AUTO,
+      width: 1300,
+      height: 600,
+      physics: {
+          default: 'arcade',
+          arcade: {
+              gravity: { y: 500 },
+              debug: false
+          }
+      }
+  };
+  var game = new Phaser.Game(config);
 
-var config = {
-    type: Phaser.AUTO,
-    width: 1300,
-    height: 600,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 300 },
-            debug: false
-        }
-    },
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
-    }
-};
+  game.scene.add('boot', bootState);
+  game.scene.add('menu', menuState);
+  game.scene.add('game', gameState);
 
-var player;
-var enemies = [];
-var door;
-var stars;
-var platforms;
-var cursors;
-var score = 0;
-var gameOver = false;
-var scoreText;
-var lado = true;
-
-var game = new Phaser.Game(config);
-
-function preload() {
-    this.load.image('sky', 'assets/sky.png');
-    this.load.image('wall', 'assets/wall.png');
-    this.load.image('ground', 'assets/platform.png');
-    this.load.image('halfGround', 'assets/halfPlatform.png');
-    this.load.image('bigGround', 'assets/bigPlatform.png');
-    this.load.image('star', 'assets/star.png');
-    this.load.image('door', 'assets/door.png');
-    this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
-    this.load.spritesheet('mainWalk', 'assets/mainWalk.png', { frameWidth: 42, frameHeight: 48 });
-    this.load.spritesheet('mainWait', 'assets/mainWait.png', { frameWidth: 42, frameHeight: 48 });
-    this.load.spritesheet('mainDie', 'assets/mainDie.png', { frameWidth: 60, frameHeight: 48 });
-    this.load.spritesheet('enemyWait', 'assets/enemyWait.png', { frameWidth: 33, frameHeight: 48 });
-}
-
-function animations() {
-    
-}
-
-function create() {
-    //  A simple background for our game
-    this.add.image(600, 300, 'sky');
-
-    //  The platforms group contains the ground and the 2 ledges we can jump on
-    platforms = this.physics.add.staticGroup();
-
-    //  Here we create the ground.
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    platforms.create(400, 568, 'bigGround').setScale(2).refreshBody();
-
-    //  Now let's create some ledges
-    platforms.create(600, 450, 'ground');
-    platforms.create(50, 400, 'ground');
-    platforms.create(400, 280, 'halfGround');
-    platforms.create(790, 410, 'wall');
-    platforms.create(750, 220, 'ground');
-
-    door = this.physics.add.image(865, 505, 'door');
-    door.setCollideWorldBounds(true);
-
-    // The player and its settings
-    player = this.physics.add.sprite(118, 450, 'dude');
-
-    // The enemy and its settings
-    var enemy1 = this.physics.add.sprite(300, 450, 'enemyWait');
-    enemy1.identifier = 'primeiro';
-    enemies.push(enemy1);
-    var enemy2 = this.physics.add.sprite(700, 400, 'enemyWait');
-    enemy2.identifier = 'segundo';
-    enemies.push(enemy2);
-    var enemy3 = this.physics.add.sprite(100, 150, 'enemyWait');
-    enemy3.identifier = 'terceiro';
-    enemies.push(enemy3);
-    var enemy4 = this.physics.add.sprite(600, 50, 'enemyWait');
-    enemy4.identifier = 'quarto';
-    enemies.push(enemy4);
-
-    //  Player physics properties. Give the little guy a slight bounce.
-    player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
-
-    //  Enemy physics properties. Give the little guy a slight bounce.
-    enemies.forEach(e => {
-        e.setBounce(0.2);
-        e.setCollideWorldBounds(true);
-    })
-    
-    //  Our player animations, turning, walking left and walking right.
-    this.anims.create({
-        key: 'left',
-        frames: this.anims.generateFrameNumbers('mainWalk', { start: 39, end: 75 }),
-        frameRate: 50,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'turnRight',
-        frames: this.anims.generateFrameNumbers('mainWait', { start: 0, end: 37 }),
-        frameRate: 50,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'turnLeft',
-        frames: this.anims.generateFrameNumbers('mainWait', { start: 39, end: 75 }),
-        frameRate: 50,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'right',
-        frames: this.anims.generateFrameNumbers('mainWalk', { start: 0, end: 37 }),
-        frameRate: 50,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'die',
-        frames: this.anims.generateFrameNumbers('mainDie', { start: 0, end: 37 }),
-        frameRate: 50,
-        repeat: 0
-    });
-
-    this.anims.create({
-        key: 'waitEnemy',
-        frames: this.anims.generateFrameNumbers('enemyWait', { start: 0, end: 25 }),
-        frameRate: 20,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'waitLeft',
-        frames: this.anims.generateFrameNumbers('enemyWait', { start: 26, end: 50 }),
-        frameRate: 20,
-        repeat: -1
-    });
-
-    //  Input Events
-    cursors = this.input.keyboard.createCursorKeys();
-
-    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
-    stars = this.physics.add.group({
-        key: 'star',
-        repeat: 18,
-        setXY: { x: 12, y: 0, stepX: 70 }
-    });
-
-    stars.children.iterate(function (child) {
-        //  Give each star a slightly different bounce
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-    });
-
-    //  The score
-    scoreText = this.add.text(16, 16, 'Pontuação: 0', { fontSize: '32px', fill: '#FFF' });
-
-    //  Collide the player and the stars with the platforms
-    this.physics.add.collider(player, platforms);
-    this.physics.add.collider(stars, platforms);
-    this.physics.add.collider(door, platforms);
-    enemies.forEach(e => {
-        this.physics.add.collider(e, platforms);
-        this.physics.add.collider(player, e, hitEnemy, null, this);
-        moveEnemy(e);
-    });
-    
-    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    this.physics.add.overlap(player, stars, collectStar, null, this);
-
-    this.physics.add.overlap(player, door, enterDoor, null, this);
-}
-
-function level1() {
-    
-}
-
-function update() {
-    if (gameOver) {
-        return;
-    }
-
-    if (cursors.left.isDown) {
-        player.setVelocityX(-160);
-        lado = false;
-        player.anims.play('left', true);
-    } else if (cursors.right.isDown) {
-        player.setVelocityX(160);
-        lado = true;
-        player.anims.play('right', true);
-    } else {
-        player.setVelocityX(0);
-        if (lado) {
-            player.anims.play('turnRight', true);
-        } else {
-            player.anims.play('turnLeft', true);
-        }
-    }
-
-    if (cursors.up.isDown && player.body.touching.down) {
-        player.setVelocityY(-260);
-    }
-}
-
-function collectStar(player, star) {
-    star.disableBody(true, true);
-    score += 10;
-    scoreText.setText('Pontuação: ' + score);
-}
-
-var enemiesMovement = [];
-
-function moveEnemy(enemy) {
-    enemiesMovement.push({ identifier: enemy.identifier, right: true });
-    setInterval(() => movement(enemy), 1200);    
-}
-
-function movement(enemy) {
-    var myEnemy = enemiesMovement.find(e => e.identifier === enemy.identifier);
-    if (myEnemy.right) {
-        enemy.anims.play('waitEnemy', true);
-        enemy.setVelocityX(120);
-        myEnemy.right = false;
-    } else {
-        enemy.anims.play('waitLeft', true);
-        enemy.setVelocityX(-120);
-        myEnemy.right = true;
-    }
-}
-
-function hitEnemy(player, enemy) {
-    this.physics.pause();
-    player.setTint(0xff0000);
-    player.anims.play('die', false);
-    gameOver = true;
-}
-
-function enterDoor(player, door) {
-    this.state.start('Level2');
-}
-
+  game.scene.start('boot');
 </script>
 
 </body>
