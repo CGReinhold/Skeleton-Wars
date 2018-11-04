@@ -20,6 +20,7 @@ var bootState = {
     this.load.spritesheet('mainWalk', 'assets/mainWalk.png', { frameWidth: 42, frameHeight: 48 });
     this.load.spritesheet('mainWait', 'assets/mainWait.png', { frameWidth: 42, frameHeight: 48 });
     this.load.spritesheet('mainDie', 'assets/mainDie.png', { frameWidth: 60, frameHeight: 48 });
+    this.load.spritesheet('attack', 'assets/attack.png', { frameWidth: 58, frameHeight: 48 });
     this.load.spritesheet('enemyWait', 'assets/enemyWait.png', { frameWidth: 33, frameHeight: 48 });
   },
 

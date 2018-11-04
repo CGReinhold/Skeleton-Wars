@@ -1,6 +1,7 @@
-var gameState = {
+var level1State = {
   gameOver: false,
   lado: true,
+  isAttacking: false,
 
   create: function create() {
     var enemiesMovement = [];
@@ -97,6 +98,20 @@ var gameState = {
     });
 
     this.anims.create({
+      key: 'attack',
+      frames: this.anims.generateFrameNumbers('attack', { start: 0, end: 37 }),
+      frameRate: 50,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'attackLeft',
+      frames: this.anims.generateFrameNumbers('attack', { start: 39, end: 75 }),
+      frameRate: 50,
+      repeat: 0
+    });
+
+    this.anims.create({
       key: 'waitEnemy',
       frames: this.anims.generateFrameNumbers('enemyWait', { start: 0, end: 25 }),
       frameRate: 20,
@@ -129,10 +144,14 @@ var gameState = {
     enemies.forEach(e => {
       this.physics.add.collider(e, platforms);
       this.physics.add.collider(this.player, e, (player, enemy) => {
-        this.physics.pause();
-        player.setTint(0xff0000);
-        player.anims.play('die', false);
-        this.gameOver = true;
+        if (!this.isAttacking) {
+          this.physics.pause();
+          player.setTint(0xff0000);
+          player.anims.play('die', false);
+          this.gameOver = true;
+        } else {
+          enemy.destroy();
+        }
       }, null, this);
       enemiesMovement.push({ identifier: e.identifier, right: true });
       setInterval(() => {
@@ -156,7 +175,7 @@ var gameState = {
       scoreText.setText('Pontuação: ' + score);
     }, null, this);
 
-    this.physics.add.overlap(this.player, door, () => this.scene.start('menu'), null, this);
+    this.physics.add.overlap(this.player, door, () => this.scene.start('level2'), null, this);
   },
 
   update: function update() {
@@ -164,15 +183,25 @@ var gameState = {
       return;
     }
 
-    if (this.cursors.left.isDown) {
+    if (this.cursors.space.isDown) {
+      if (this.lado) {
+        this.player.anims.play('attack', false);
+      } else {
+        this.player.anims.play('attackLeft', false);
+      }
+      this.isAttacking = true;
+      setTimeout(() => {
+        this.isAttacking = false;
+      }, 800);
+    } if (this.cursors.left.isDown && !this.isAttacking) {
       this.player.setVelocityX(-160);
       this.lado = false;
       this.player.anims.play('left', true);
-    } else if (this.cursors.right.isDown) {
+    } else if (this.cursors.right.isDown && !this.isAttacking) {
       this.player.setVelocityX(160);
       this.lado = true;
       this.player.anims.play('right', true);
-    } else {
+    } else if (!this.isAttacking){
       this.player.setVelocityX(0);
       if (this.lado) {
         this.player.anims.play('turnRight', true);

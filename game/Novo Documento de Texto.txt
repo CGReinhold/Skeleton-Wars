@@ -1,0 +1,5 @@
+- Adicionar possibilidade de atacar;
+- Contabilizar pontuação de todos níveis juntos;
+- Permitir morrer 3 vezes;
+- Adicionar novas coisas no mapa;
+- Criar tela para quando o jogador perde;

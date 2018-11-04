@@ -14,7 +14,13 @@
 
 <script src="boot.js"></script>
 <script src="menu.js"></script>
-<script src="game.js"></script>
+<script src="level1.js"></script>
+<script src="level2.js"></script>
+<script src="level3.js"></script>
+<script src="level4.js"></script>
+<script src="level5.js"></script>
+<script src="level6.js"></script>
+<script src="level7.js"></script>
 <script type="text/javascript">
   console.clear();
   var config = {
@@ -33,7 +39,13 @@
 
   game.scene.add('boot', bootState);
   game.scene.add('menu', menuState);
-  game.scene.add('game', gameState);
+  game.scene.add('level1', level1State);
+  game.scene.add('level2', level2State);
+  game.scene.add('level3', level3State);
+  game.scene.add('level4', level4State);
+  game.scene.add('level5', level5State);
+  game.scene.add('level6', level6State);
+  game.scene.add('level7', level7State);
 
   game.scene.start('boot');
 </script>
