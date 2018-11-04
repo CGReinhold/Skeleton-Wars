@@ -9,8 +9,8 @@ var level3State = {
     var door;
     var stars;
     var platforms;
-    var cursors;
     var scoreText;
+    var deathText;
     
     //  A simple background for our game
     this.add.image(600, 300, 'sky');
@@ -67,6 +67,7 @@ var level3State = {
 
     //  The score
     scoreText = this.add.text(16, 16, 'Pontuação: ' + score, { fontSize: '32px', fill: '#FFF' });
+    deathText = this.add.text(16, 46, 'Mortes: ' + deaths, { fontSize: '32px', fill: '#FFF' });
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(this.player, platforms);
@@ -78,10 +79,16 @@ var level3State = {
       this.physics.add.collider(e, platforms);
       this.physics.add.collider(this.player, e, (player, enemy) => {
         if (!this.isAttacking) {
-          this.physics.pause();
-          player.setTint(0xff0000);
-          player.anims.play('die', false);
-          this.gameOver = true;
+          if (deaths < MAX_DEATHS - 1) {
+            deaths++;
+            deathText.setText('Mortes: ' + deaths);
+            this.scene.start('level3')
+          } else {
+            this.physics.pause();
+            player.setTint(0xff0000);
+            player.anims.play('die', false);
+            this.gameOver = true;
+          }
         } else {
           enemy.destroy();
         }
@@ -108,7 +115,7 @@ var level3State = {
       scoreText.setText('Pontuação: ' + score);
     }, null, this);
 
-    this.physics.add.overlap(this.player, door, () => this.scene.start('level2'), null, this);
+    this.physics.add.overlap(this.player, door, () => this.scene.start('level4'), null, this);
   },
 
   update: function update() {
