@@ -10,7 +10,6 @@ var level1State = {
     var stars;
     var platforms;
     var cursors;
-    var score = 0;
     var scoreText;
     
     //  A simple background for our game
@@ -55,76 +54,8 @@ var level1State = {
     this.player.setBounce(0.2);
     this.player.setCollideWorldBounds(true);
 
-    //  Enemy physics properties. Give the little guy a slight bounce.
-    enemies.forEach(e => {
-      e.setBounce(0.2);
-      e.setCollideWorldBounds(true);
-    })
+    addAnimations(this.anims);
     
-    //  Our player animations, turning, walking left and walking right.
-    this.anims.create({
-      key: 'left',
-      frames: this.anims.generateFrameNumbers('mainWalk', { start: 39, end: 75 }),
-      frameRate: 50,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'turnRight',
-      frames: this.anims.generateFrameNumbers('mainWait', { start: 0, end: 37 }),
-      frameRate: 50,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'turnLeft',
-      frames: this.anims.generateFrameNumbers('mainWait', { start: 39, end: 75 }),
-      frameRate: 50,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'right',
-      frames: this.anims.generateFrameNumbers('mainWalk', { start: 0, end: 37 }),
-      frameRate: 50,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'die',
-      frames: this.anims.generateFrameNumbers('mainDie', { start: 0, end: 37 }),
-      frameRate: 50,
-      repeat: 0
-    });
-
-    this.anims.create({
-      key: 'attack',
-      frames: this.anims.generateFrameNumbers('attack', { start: 0, end: 37 }),
-      frameRate: 50,
-      repeat: 0
-    });
-
-    this.anims.create({
-      key: 'attackLeft',
-      frames: this.anims.generateFrameNumbers('attack', { start: 39, end: 75 }),
-      frameRate: 50,
-      repeat: 0
-    });
-
-    this.anims.create({
-      key: 'waitEnemy',
-      frames: this.anims.generateFrameNumbers('enemyWait', { start: 0, end: 25 }),
-      frameRate: 20,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'waitLeft',
-      frames: this.anims.generateFrameNumbers('enemyWait', { start: 26, end: 50 }),
-      frameRate: 20,
-      repeat: -1
-    });
-
     //  Input Events
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -135,13 +66,15 @@ var level1State = {
     stars.children.iterate(child => child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8)));
 
     //  The score
-    scoreText = this.add.text(16, 16, 'Pontuação: 0', { fontSize: '32px', fill: '#FFF' });
+    scoreText = this.add.text(16, 16, 'Pontuação: ' + score, { fontSize: '32px', fill: '#FFF' });
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(this.player, platforms);
     this.physics.add.collider(stars, platforms);
     this.physics.add.collider(door, platforms);
     enemies.forEach(e => {
+      e.setBounce(0.2);
+      e.setCollideWorldBounds(true);
       this.physics.add.collider(e, platforms);
       this.physics.add.collider(this.player, e, (player, enemy) => {
         if (!this.isAttacking) {
@@ -215,15 +148,9 @@ var level1State = {
     }
   },
 
-  paused: function paused() {
-    // this.pausedIndicator.exists = true;
-    // this.world.alpha = 0.5;
-  },
+  paused: function paused() { },
 
-  resumed: function resumed() {
-    // this.pausedIndicator.exists = false;
-    // this.world.alpha = 1;
-  },
+  resumed: function resumed() { },
 
   shutdown: function shutdown() {
     // During state shutdown, the World is emptied but the Stage is not.
@@ -232,7 +159,6 @@ var level1State = {
   },
   
   // Restart is shutdown -> init -> preload -> create, etc.
-
   restart: function restart() {
     console.log('Restart');
     this.scene.restart();

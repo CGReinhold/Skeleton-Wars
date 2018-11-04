@@ -1,6 +1,7 @@
 var level5State = {
   gameOver: false,
   lado: true,
+  isAttacking: false,
 
   create: function create() {
     var enemiesMovement = [];
@@ -9,7 +10,6 @@ var level5State = {
     var stars;
     var platforms;
     var cursors;
-    var score = 0;
     var scoreText;
     
     //  A simple background for our game
@@ -54,62 +54,8 @@ var level5State = {
     this.player.setBounce(0.2);
     this.player.setCollideWorldBounds(true);
 
-    //  Enemy physics properties. Give the little guy a slight bounce.
-    enemies.forEach(e => {
-      e.setBounce(0.2);
-      e.setCollideWorldBounds(true);
-    })
+    addAnimations(this.anims);
     
-    //  Our player animations, turning, walking left and walking right.
-    this.anims.create({
-      key: 'left',
-      frames: this.anims.generateFrameNumbers('mainWalk', { start: 39, end: 75 }),
-      frameRate: 50,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'turnRight',
-      frames: this.anims.generateFrameNumbers('mainWait', { start: 0, end: 37 }),
-      frameRate: 50,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'turnLeft',
-      frames: this.anims.generateFrameNumbers('mainWait', { start: 39, end: 75 }),
-      frameRate: 50,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'right',
-      frames: this.anims.generateFrameNumbers('mainWalk', { start: 0, end: 37 }),
-      frameRate: 50,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'die',
-      frames: this.anims.generateFrameNumbers('mainDie', { start: 0, end: 37 }),
-      frameRate: 50,
-      repeat: 0
-    });
-
-    this.anims.create({
-      key: 'waitEnemy',
-      frames: this.anims.generateFrameNumbers('enemyWait', { start: 0, end: 25 }),
-      frameRate: 20,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'waitLeft',
-      frames: this.anims.generateFrameNumbers('enemyWait', { start: 26, end: 50 }),
-      frameRate: 20,
-      repeat: -1
-    });
-
     //  Input Events
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -120,19 +66,25 @@ var level5State = {
     stars.children.iterate(child => child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8)));
 
     //  The score
-    scoreText = this.add.text(16, 16, 'Pontuação: 0', { fontSize: '32px', fill: '#FFF' });
+    scoreText = this.add.text(16, 16, 'Pontuação: ' + score, { fontSize: '32px', fill: '#FFF' });
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(this.player, platforms);
     this.physics.add.collider(stars, platforms);
     this.physics.add.collider(door, platforms);
     enemies.forEach(e => {
+      e.setBounce(0.2);
+      e.setCollideWorldBounds(true);
       this.physics.add.collider(e, platforms);
       this.physics.add.collider(this.player, e, (player, enemy) => {
-        this.physics.pause();
-        player.setTint(0xff0000);
-        player.anims.play('die', false);
-        this.gameOver = true;
+        if (!this.isAttacking) {
+          this.physics.pause();
+          player.setTint(0xff0000);
+          player.anims.play('die', false);
+          this.gameOver = true;
+        } else {
+          enemy.destroy();
+        }
       }, null, this);
       enemiesMovement.push({ identifier: e.identifier, right: true });
       setInterval(() => {
@@ -156,7 +108,7 @@ var level5State = {
       scoreText.setText('Pontuação: ' + score);
     }, null, this);
 
-    this.physics.add.overlap(this.player, door, () => this.scene.start('level6'), null, this);
+    this.physics.add.overlap(this.player, door, () => this.scene.start('level2'), null, this);
   },
 
   update: function update() {
@@ -164,15 +116,25 @@ var level5State = {
       return;
     }
 
-    if (this.cursors.left.isDown) {
+    if (this.cursors.space.isDown) {
+      if (this.lado) {
+        this.player.anims.play('attack', false);
+      } else {
+        this.player.anims.play('attackLeft', false);
+      }
+      this.isAttacking = true;
+      setTimeout(() => {
+        this.isAttacking = false;
+      }, 800);
+    } if (this.cursors.left.isDown && !this.isAttacking) {
       this.player.setVelocityX(-160);
       this.lado = false;
       this.player.anims.play('left', true);
-    } else if (this.cursors.right.isDown) {
+    } else if (this.cursors.right.isDown && !this.isAttacking) {
       this.player.setVelocityX(160);
       this.lado = true;
       this.player.anims.play('right', true);
-    } else {
+    } else if (!this.isAttacking){
       this.player.setVelocityX(0);
       if (this.lado) {
         this.player.anims.play('turnRight', true);
@@ -186,15 +148,9 @@ var level5State = {
     }
   },
 
-  paused: function paused() {
-    // this.pausedIndicator.exists = true;
-    // this.world.alpha = 0.5;
-  },
+  paused: function paused() { },
 
-  resumed: function resumed() {
-    // this.pausedIndicator.exists = false;
-    // this.world.alpha = 1;
-  },
+  resumed: function resumed() { },
 
   shutdown: function shutdown() {
     // During state shutdown, the World is emptied but the Stage is not.
@@ -203,7 +159,6 @@ var level5State = {
   },
   
   // Restart is shutdown -> init -> preload -> create, etc.
-
   restart: function restart() {
     console.log('Restart');
     this.scene.restart();

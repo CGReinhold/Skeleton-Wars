@@ -1,0 +1,3 @@
+﻿- Permitir morrer 3 vezes;
+- Adicionar novas coisas no mapa;
+- Criar tela para quando o jogador perde;
