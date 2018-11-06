@@ -8,7 +8,7 @@ var level3State = {
     var enemies = [];
     var coins = [];
     var door;
-    var espinhos = [];
+    var espinhos;
     var platforms;
     var scoreText;
     var deathText;
@@ -23,41 +23,40 @@ var level3State = {
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
     platforms.create(400, 568, 'bigGround').setScale(2).refreshBody();
 
-    platforms.create(100, 640, 'wall');
-    platforms.create(300, 640, 'wall');
-    platforms.create(700, 640, 'wall');
-    platforms.create(500, 370, 'halfGround');
-    platforms.create(800, 300, 'halfGround');
-    platforms.create(1350, 370, 'halfGround');
-    platforms.create(900, 390, 'wall');
-    platforms.create(1150, 100, 'wall');
-    platforms.create(1050, 640, 'wall');
-    platforms.create(1200, 640, 'wall');
-
-    door = this.physics.add.image(1250, 505, 'door');
+    //  Now let's create some ledges
+    platforms.create(60, 270, 'halfGround');
+    platforms.create(260, 370, 'halfGround');
+    platforms.create(460, 270, 'halfGround');
+    platforms.create(460, 470, 'halfGround');
+    platforms.create(660, 170, 'halfGround');
+    platforms.create(660, 370, 'halfGround');
+    platforms.create(960, 370, 'halfGround');
+    platforms.create(1230, 290, 'halfGround');
+    platforms.create(744, 370, 'wall');
+    platforms.create(944, 170, 'wall');
+    platforms.create(1150, 660, 'wall');
+    platforms.create(1150, 450, 'halfGround');
+    
+    door = this.physics.add.image(1200, 505, 'door');
     door.setCollideWorldBounds(true);
 
     // The player and its settings
-    this.player = this.physics.add.sprite(30, 450, 'dude');
+    this.player = this.physics.add.sprite(40, 220, 'dude');
 
     // The enemy and its settings
-    var enemy1 = this.physics.add.sprite(430, 250, 'enemyWait');
+    var enemy1 = this.physics.add.sprite(800, 450, 'enemyWait');
     enemy1.identifier = 'primeiro';
     enemies.push(enemy1);
-    var enemy2 = this.physics.add.sprite(740, 200, 'enemyWait');
+    var enemy2 = this.physics.add.sprite(960, 400, 'enemyWait');
     enemy2.identifier = 'segundo';
     enemies.push(enemy2);
     
-    var espinhos1 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 140, y: 505, stepX: 55 } });
-    espinhos.push(espinhos1);
-    var espinhos2 = this.physics.add.group({ key: 'espinhos', repeat: 7, setXY: { x: 340, y: 505, stepX: 45 } });
-    espinhos.push(espinhos2);
-    var espinhos3 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 750, y: 505, stepX: 55 } });
-    espinhos.push(espinhos3);
-    var espinhos4 = this.physics.add.group({ key: 'espinhos', repeat: 1, setXY: { x: 950, y: 505, stepX: 55 } });
-    espinhos.push(espinhos4);
-    var espinhos5 = this.physics.add.group({ key: 'espinhos', repeat: 1, setXY: { x: 1100, y: 505, stepX: 55 } });
-    espinhos.push(espinhos5);
+    var coin1 = this.physics.add.sprite(500, 430, 'coin');
+    coins.push(coin1);
+    var coin2 = this.physics.add.sprite(400, 430, 'coin');
+    coins.push(coin2);
+    var coin3 = this.physics.add.sprite(1200, 230, 'coin');
+    coins.push(coin3);
 
     //  Player physics properties. Give the little guy a slight bounce.
     this.player.setBounce(0.2);
@@ -68,12 +67,11 @@ var level3State = {
     //  Input Events
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    var coin1 = this.physics.add.sprite(1280, 320, 'coin');
-    coins.push(coin1);
-    var coin2 = this.physics.add.sprite(700, 350, 'coin');
-    coins.push(coin2);
-    var coin3 = this.physics.add.sprite(900, 130, 'coin');
-    coins.push(coin3);
+    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+    // stars = this.physics.add.group({ key: 'star', repeat: 18, setXY: { x: 12, y: 0, stepX: 70 } });
+    espinhos = this.physics.add.group({ key: 'espinhos', repeat: 15, setXY: { x: 30, y: 515, stepX: 45 } });
+    //  Give each star a slightly different bounce
+    // stars.children.iterate(child => child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8)));
 
     //  The score
     scoreText = this.add.text(16, 16, 'Pontuação: ' + score, { fontSize: '32px', fill: '#FFF' });
@@ -81,6 +79,7 @@ var level3State = {
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(this.player, platforms);
+    this.physics.add.collider(espinhos, platforms);
     this.physics.add.collider(door, platforms);
     enemies.forEach(e => {
       e.setBounce(0.2);
@@ -125,21 +124,19 @@ var level3State = {
         scoreText.setText('Pontuação: ' + score);
       }, null, this);      
     });
-    espinhos.forEach(e => {
-      this.physics.add.collider(e, platforms);
-      this.physics.add.overlap(this.player, e, () => {
-        if (deaths < MAX_DEATHS - 1) {
-          deaths++;
-          deathText.setText('Mortes: ' + deaths);
-          this.scene.start('level3')
-        } else {
-          this.physics.pause();
-          player.setTint(0xff0000);
-          player.anims.play('die', false);
-          this.gameOver = true;
-        }
-      }, null, this);
-    });
+
+    this.physics.add.overlap(this.player, espinhos, () => {
+      if (deaths < MAX_DEATHS - 1) {
+        deaths++;
+        deathText.setText('Mortes: ' + deaths);
+        this.scene.start('level3')
+      } else {
+        this.physics.pause();
+        player.setTint(0xff0000);
+        player.anims.play('die', false);
+        this.gameOver = true;
+      }
+    }, null, this);
 
     this.physics.add.overlap(this.player, door, () => this.scene.start('level4'), null, this);
   },

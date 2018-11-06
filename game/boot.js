@@ -13,6 +13,7 @@ var bootState = {
     this.load.image('wall', 'assets/wall.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('halfGround', 'assets/halfPlatform.png');
+    this.load.image('quarterGround', 'assets/quarterPlatform.png');
     this.load.image('bigGround', 'assets/bigPlatform.png');
     this.load.image('star', 'assets/star.png');
     this.load.image('door', 'assets/door.png');

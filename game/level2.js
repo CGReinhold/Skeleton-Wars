@@ -7,8 +7,8 @@ var level2State = {
     var enemiesMovement = [];
     var enemies = [];
     var coins = [];
+    var espinhos = [];
     var door;
-    var espinhos;
     var platforms;
     var scoreText;
     var deathText;
@@ -23,40 +23,56 @@ var level2State = {
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
     platforms.create(400, 568, 'bigGround').setScale(2).refreshBody();
 
+    platforms.create(80, 140, 'halfGround');
+    platforms.create(300, 280, 'halfGround');
+    platforms.create(390, 280, 'halfGround');
+    platforms.create(15, 420, 'halfGround');
+    platforms.create(650, 440, 'halfGround');
+    platforms.create(700, 360, 'halfGround');
+    platforms.create(650, 190, 'halfGround');
+    platforms.create(1150, 390, 'quarterGround');
+    platforms.create(950, 304, 'quarterGround');
+    platforms.create(1150, 240, 'quarterGround');
+    platforms.create(400, 90, 'wall');
+    platforms.create(650, 340, 'wall');
+    platforms.create(900, 120, 'wall');
+    platforms.create(230, 670, 'wall');
+    platforms.create(430, 670, 'wall');
+    platforms.create(830, 670, 'wall');
+    platforms.create(1000, 670, 'wall');
+    platforms.create(1200, 370, 'wall');
+
     //  Now let's create some ledges
-    platforms.create(60, 270, 'halfGround');
-    platforms.create(260, 370, 'halfGround');
-    platforms.create(460, 270, 'halfGround');
-    platforms.create(460, 470, 'halfGround');
-    platforms.create(660, 170, 'halfGround');
-    platforms.create(660, 370, 'halfGround');
-    platforms.create(960, 370, 'halfGround');
-    platforms.create(1230, 290, 'halfGround');
-    platforms.create(744, 370, 'wall');
-    platforms.create(944, 170, 'wall');
-    platforms.create(1150, 660, 'wall');
-    platforms.create(1150, 450, 'halfGround');
-    
-    door = this.physics.add.image(1200, 505, 'door');
+    // platforms.create(600, 450, 'ground');
+    // platforms.create(50, 400, 'ground');
+    // platforms.create(400, 280, 'halfGround');
+    // platforms.create(630, 360, 'halfGround');
+    // platforms.create(790, 410, 'wall');
+    // platforms.create(750, 220, 'ground');
+
+    door = this.physics.add.image(1250, 505, 'door');
     door.setCollideWorldBounds(true);
 
     // The player and its settings
-    this.player = this.physics.add.sprite(40, 220, 'dude');
+    this.player = this.physics.add.sprite(30, 80, 'dude');
 
-    // The enemy and its settings
-    var enemy1 = this.physics.add.sprite(800, 450, 'enemyWait');
+    // // The enemy and its settings
+    var enemy1 = this.physics.add.sprite(270, 180, 'enemyWait');
     enemy1.identifier = 'primeiro';
     enemies.push(enemy1);
-    var enemy2 = this.physics.add.sprite(960, 400, 'enemyWait');
-    enemy2.identifier = 'segundo';
-    enemies.push(enemy2);
     
-    var coin1 = this.physics.add.sprite(500, 430, 'coin');
-    coins.push(coin1);
-    var coin2 = this.physics.add.sprite(400, 430, 'coin');
-    coins.push(coin2);
-    var coin3 = this.physics.add.sprite(1200, 230, 'coin');
-    coins.push(coin3);
+    var espinhos1 = this.physics.add.group({ key: 'espinhos', repeat: 4, setXY: { x: 20, y: 505, stepX: 43 } });
+    espinhos.push(espinhos1);
+    var espinhos2 = this.physics.add.group({ key: 'espinhos', repeat: 3, setXY: { x: 270, y: 505, stepX: 40 } });
+    espinhos.push(espinhos2);
+    var espinhos3 = this.physics.add.group({ key: 'espinhos', repeat: 3, setXY: { x: 470, y: 505, stepX: 45 } });
+    espinhos.push(espinhos3);
+    var espinhos4 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 690, y: 505, stepX: 50 } });
+    espinhos.push(espinhos4);
+    var espinhos5 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 870, y: 505, stepX: 45 } });
+    espinhos.push(espinhos5);
+    var espinhos6 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 1040, y: 505, stepX: 55 } });
+    espinhos.push(espinhos6);
 
     //  Player physics properties. Give the little guy a slight bounce.
     this.player.setBounce(0.2);
@@ -67,11 +83,12 @@ var level2State = {
     //  Input Events
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
-    // stars = this.physics.add.group({ key: 'star', repeat: 18, setXY: { x: 12, y: 0, stepX: 70 } });
-    espinhos = this.physics.add.group({ key: 'espinhos', repeat: 15, setXY: { x: 30, y: 515, stepX: 45 } });
-    //  Give each star a slightly different bounce
-    // stars.children.iterate(child => child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8)));
+    var coin1 = this.physics.add.sprite(30, 320, 'coin');
+    coins.push(coin1);
+    var coin2 = this.physics.add.sprite(700, 250, 'coin');
+    coins.push(coin2);
+    var coin3 = this.physics.add.sprite(1200, 130, 'coin');
+    coins.push(coin3);
 
     //  The score
     scoreText = this.add.text(16, 16, 'Pontuação: ' + score, { fontSize: '32px', fill: '#FFF' });
@@ -79,7 +96,6 @@ var level2State = {
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(this.player, platforms);
-    this.physics.add.collider(espinhos, platforms);
     this.physics.add.collider(door, platforms);
     enemies.forEach(e => {
       e.setBounce(0.2);
@@ -124,19 +140,21 @@ var level2State = {
         scoreText.setText('Pontuação: ' + score);
       }, null, this);      
     });
-
-    this.physics.add.overlap(this.player, espinhos, () => {
-      if (deaths < MAX_DEATHS - 1) {
-        deaths++;
-        deathText.setText('Mortes: ' + deaths);
-        this.scene.start('level2')
-      } else {
-        this.physics.pause();
-        player.setTint(0xff0000);
-        player.anims.play('die', false);
-        this.gameOver = true;
-      }
-    }, null, this);
+    espinhos.forEach(e => {
+      this.physics.add.collider(e, platforms);
+      this.physics.add.overlap(this.player, e, () => {
+        if (deaths < MAX_DEATHS - 1) {
+          deaths++;
+          deathText.setText('Mortes: ' + deaths);
+          this.scene.start('level2')
+        } else {
+          this.physics.pause();
+          player.setTint(0xff0000);
+          player.anims.play('die', false);
+          this.gameOver = true;
+        }
+      }, null, this);
+    });
 
     this.physics.add.overlap(this.player, door, () => this.scene.start('level3'), null, this);
   },
