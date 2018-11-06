@@ -16,6 +16,8 @@ var bootState = {
     this.load.image('bigGround', 'assets/bigPlatform.png');
     this.load.image('star', 'assets/star.png');
     this.load.image('door', 'assets/door.png');
+    this.load.image('espinhos', 'assets/espinhos.png');
+    this.load.image('coin', 'assets/moeda.png');
     this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
     this.load.spritesheet('mainWalk', 'assets/mainWalk.png', { frameWidth: 42, frameHeight: 48 });
     this.load.spritesheet('mainWait', 'assets/mainWait.png', { frameWidth: 42, frameHeight: 48 });
