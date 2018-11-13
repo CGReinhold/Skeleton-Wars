@@ -7,8 +7,8 @@ var level2State = {
     var enemiesMovement = [];
     var enemies = [];
     var coins = [];
-    var espinhos = [];
     var door;
+    var espinhos = [];
     var platforms;
     var scoreText;
     var deathText;
@@ -23,56 +23,37 @@ var level2State = {
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
     platforms.create(400, 568, 'bigGround').setScale(2).refreshBody();
 
-    platforms.create(80, 140, 'halfGround');
-    platforms.create(300, 280, 'halfGround');
-    platforms.create(390, 280, 'halfGround');
-    platforms.create(15, 420, 'halfGround');
-    platforms.create(650, 440, 'halfGround');
-    platforms.create(700, 360, 'halfGround');
-    platforms.create(650, 190, 'halfGround');
-    platforms.create(1150, 390, 'quarterGround');
-    platforms.create(950, 304, 'quarterGround');
-    platforms.create(1150, 240, 'quarterGround');
-    platforms.create(400, 90, 'wall');
-    platforms.create(650, 340, 'wall');
-    platforms.create(900, 120, 'wall');
-    platforms.create(230, 670, 'wall');
-    platforms.create(430, 670, 'wall');
-    platforms.create(830, 670, 'wall');
-    platforms.create(1000, 670, 'wall');
-    platforms.create(1200, 370, 'wall');
-
-    //  Now let's create some ledges
-    // platforms.create(600, 450, 'ground');
-    // platforms.create(50, 400, 'ground');
-    // platforms.create(400, 280, 'halfGround');
-    // platforms.create(630, 360, 'halfGround');
-    // platforms.create(790, 410, 'wall');
-    // platforms.create(750, 220, 'ground');
+    platforms.create(100, 650, 'wall');
+    platforms.create(250, 600, 'wall');
+    platforms.create(400, 550, 'wall');
+    platforms.create(550, 500, 'wall');
+    platforms.create(700, 450, 'wall');
+    platforms.create(850, 400, 'wall');
+    platforms.create(1000, 450, 'wall');
+    platforms.create(1150, 500, 'wall');
+    platforms.create(810, 360, 'quarterGround');
+    platforms.create(735, 460, 'quarterGround');
 
     door = this.physics.add.image(1250, 505, 'door');
     door.setCollideWorldBounds(true);
 
-    // The player and its settings
-    this.player = this.physics.add.sprite(30, 80, 'dude');
-
-    // // The enemy and its settings
-    var enemy1 = this.physics.add.sprite(270, 180, 'enemyWait');
-    enemy1.identifier = 'primeiro';
-    enemies.push(enemy1);
-    
-    var espinhos1 = this.physics.add.group({ key: 'espinhos', repeat: 4, setXY: { x: 20, y: 505, stepX: 43 } });
+    var espinhos1 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 135, y: 505, stepX: 40 } });
     espinhos.push(espinhos1);
-    var espinhos2 = this.physics.add.group({ key: 'espinhos', repeat: 3, setXY: { x: 270, y: 505, stepX: 40 } });
+    var espinhos2 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 285, y: 505, stepX: 40 } });
     espinhos.push(espinhos2);
-    var espinhos3 = this.physics.add.group({ key: 'espinhos', repeat: 3, setXY: { x: 470, y: 505, stepX: 45 } });
+    var espinhos3 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 435, y: 505, stepX: 40 } });
     espinhos.push(espinhos3);
-    var espinhos4 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 690, y: 505, stepX: 50 } });
+    var espinhos4 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 585, y: 505, stepX: 40 } });
     espinhos.push(espinhos4);
-    var espinhos5 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 870, y: 505, stepX: 45 } });
+    var espinhos5 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 735, y: 505, stepX: 40 } });
     espinhos.push(espinhos5);
-    var espinhos6 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 1040, y: 505, stepX: 55 } });
+    var espinhos6 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 885, y: 505, stepX: 40 } });
     espinhos.push(espinhos6);
+    var espinhos7 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 1035, y: 505, stepX: 40 } });
+    espinhos.push(espinhos7);
+
+    // The player and its settings
+    this.player = this.physics.add.sprite(50, 450, 'dude');
 
     //  Player physics properties. Give the little guy a slight bounce.
     this.player.setBounce(0.2);
@@ -83,12 +64,8 @@ var level2State = {
     //  Input Events
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    var coin1 = this.physics.add.sprite(30, 320, 'coin');
-    coins.push(coin1);
-    var coin2 = this.physics.add.sprite(700, 250, 'coin');
+    var coin2 = this.physics.add.sprite(750, 350, 'coin');
     coins.push(coin2);
-    var coin3 = this.physics.add.sprite(1200, 130, 'coin');
-    coins.push(coin3);
 
     //  The score
     scoreText = this.add.text(16, 16, 'Pontuação: ' + score, { fontSize: '32px', fill: '#FFF' });

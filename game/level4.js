@@ -7,8 +7,8 @@ var level4State = {
     var enemiesMovement = [];
     var enemies = [];
     var coins = [];
-    var door;
     var espinhos = [];
+    var door;
     var platforms;
     var scoreText;
     var deathText;
@@ -23,41 +23,56 @@ var level4State = {
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
     platforms.create(400, 568, 'bigGround').setScale(2).refreshBody();
 
-    platforms.create(100, 640, 'wall');
-    platforms.create(300, 640, 'wall');
-    platforms.create(700, 640, 'wall');
-    platforms.create(500, 370, 'halfGround');
-    platforms.create(800, 300, 'halfGround');
-    platforms.create(1350, 370, 'halfGround');
-    platforms.create(900, 390, 'wall');
-    platforms.create(1150, 100, 'wall');
-    platforms.create(1050, 640, 'wall');
-    platforms.create(1200, 640, 'wall');
+    platforms.create(80, 140, 'halfGround');
+    platforms.create(300, 280, 'halfGround');
+    platforms.create(390, 280, 'halfGround');
+    platforms.create(15, 420, 'halfGround');
+    platforms.create(650, 440, 'halfGround');
+    platforms.create(700, 360, 'halfGround');
+    platforms.create(650, 190, 'halfGround');
+    platforms.create(1150, 390, 'quarterGround');
+    platforms.create(950, 304, 'quarterGround');
+    platforms.create(1150, 240, 'quarterGround');
+    platforms.create(400, 90, 'wall');
+    platforms.create(650, 340, 'wall');
+    platforms.create(900, 120, 'wall');
+    platforms.create(230, 670, 'wall');
+    platforms.create(430, 670, 'wall');
+    platforms.create(830, 670, 'wall');
+    platforms.create(1000, 670, 'wall');
+    platforms.create(1200, 370, 'wall');
+
+    //  Now let's create some ledges
+    // platforms.create(600, 450, 'ground');
+    // platforms.create(50, 400, 'ground');
+    // platforms.create(400, 280, 'halfGround');
+    // platforms.create(630, 360, 'halfGround');
+    // platforms.create(790, 410, 'wall');
+    // platforms.create(750, 220, 'ground');
 
     door = this.physics.add.image(1250, 505, 'door');
     door.setCollideWorldBounds(true);
 
     // The player and its settings
-    this.player = this.physics.add.sprite(30, 450, 'dude');
+    this.player = this.physics.add.sprite(30, 80, 'dude');
 
-    // The enemy and its settings
-    var enemy1 = this.physics.add.sprite(430, 250, 'enemyWait');
+    // // The enemy and its settings
+    var enemy1 = this.physics.add.sprite(270, 180, 'enemyWait');
     enemy1.identifier = 'primeiro';
     enemies.push(enemy1);
-    var enemy2 = this.physics.add.sprite(740, 200, 'enemyWait');
-    enemy2.identifier = 'segundo';
-    enemies.push(enemy2);
     
-    var espinhos1 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 140, y: 505, stepX: 55 } });
+    var espinhos1 = this.physics.add.group({ key: 'espinhos', repeat: 4, setXY: { x: 20, y: 505, stepX: 43 } });
     espinhos.push(espinhos1);
-    var espinhos2 = this.physics.add.group({ key: 'espinhos', repeat: 7, setXY: { x: 340, y: 505, stepX: 45 } });
+    var espinhos2 = this.physics.add.group({ key: 'espinhos', repeat: 3, setXY: { x: 270, y: 505, stepX: 40 } });
     espinhos.push(espinhos2);
-    var espinhos3 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 750, y: 505, stepX: 55 } });
+    var espinhos3 = this.physics.add.group({ key: 'espinhos', repeat: 3, setXY: { x: 470, y: 505, stepX: 45 } });
     espinhos.push(espinhos3);
-    var espinhos4 = this.physics.add.group({ key: 'espinhos', repeat: 1, setXY: { x: 950, y: 505, stepX: 55 } });
+    var espinhos4 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 690, y: 505, stepX: 50 } });
     espinhos.push(espinhos4);
-    var espinhos5 = this.physics.add.group({ key: 'espinhos', repeat: 1, setXY: { x: 1100, y: 505, stepX: 55 } });
+    var espinhos5 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 870, y: 505, stepX: 45 } });
     espinhos.push(espinhos5);
+    var espinhos6 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 1040, y: 505, stepX: 55 } });
+    espinhos.push(espinhos6);
 
     //  Player physics properties. Give the little guy a slight bounce.
     this.player.setBounce(0.2);
@@ -68,11 +83,11 @@ var level4State = {
     //  Input Events
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    var coin1 = this.physics.add.sprite(1280, 320, 'coin');
+    var coin1 = this.physics.add.sprite(30, 320, 'coin');
     coins.push(coin1);
-    var coin2 = this.physics.add.sprite(700, 350, 'coin');
+    var coin2 = this.physics.add.sprite(700, 250, 'coin');
     coins.push(coin2);
-    var coin3 = this.physics.add.sprite(900, 130, 'coin');
+    var coin3 = this.physics.add.sprite(1200, 130, 'coin');
     coins.push(coin3);
 
     //  The score

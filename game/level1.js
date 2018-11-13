@@ -23,30 +23,40 @@ var level1State = {
     platforms.create(400, 568, 'bigGround').setScale(2).refreshBody();
 
     //  Now let's create some ledges
-    platforms.create(600, 450, 'ground');
-    platforms.create(50, 400, 'ground');
-    platforms.create(400, 280, 'halfGround');
-    platforms.create(630, 360, 'halfGround');
-    platforms.create(790, 410, 'wall');
-    platforms.create(750, 220, 'ground');
+    platforms.create(100, 150, 'ground');
+    platforms.create(400, 150, 'ground');
+    platforms.create(700, 150, 'ground');
+    platforms.create(1000, 150, 'ground');
+    platforms.create(300, 250, 'ground');
+    platforms.create(500, 250, 'ground');
+    platforms.create(800, 250, 'ground');
+    platforms.create(1100, 250, 'ground');
+    platforms.create(100, 350, 'ground');
+    platforms.create(400, 350, 'ground');
+    platforms.create(700, 350, 'ground');
+    platforms.create(1000, 350, 'ground');
+    platforms.create(300, 450, 'ground');
+    platforms.create(500, 450, 'ground');
+    platforms.create(800, 450, 'ground');
+    platforms.create(1100, 450, 'ground');
 
-    door = this.physics.add.image(865, 505, 'door');
+    door = this.physics.add.image(1250, 505, 'door');
     door.setCollideWorldBounds(true);
 
     // The player and its settings
-    this.player = this.physics.add.sprite(118, 450, 'dude');
+    this.player = this.physics.add.sprite(40, 100, 'dude');
 
     // The enemy and its settings
-    var enemy1 = this.physics.add.sprite(300, 450, 'enemyWait');
+    var enemy1 = this.physics.add.sprite(400, 450, 'enemyWait');
     enemy1.identifier = 'primeiro';
     enemies.push(enemy1);
-    var enemy2 = this.physics.add.sprite(700, 400, 'enemyWait');
+    var enemy2 = this.physics.add.sprite(800, 400, 'enemyWait');
     enemy2.identifier = 'segundo';
     enemies.push(enemy2);
-    var enemy3 = this.physics.add.sprite(100, 150, 'enemyWait');
+    var enemy3 = this.physics.add.sprite(200, 150, 'enemyWait');
     enemy3.identifier = 'terceiro';
     enemies.push(enemy3);
-    var enemy4 = this.physics.add.sprite(600, 50, 'enemyWait');
+    var enemy4 = this.physics.add.sprite(700, 50, 'enemyWait');
     enemy4.identifier = 'quarto';
     enemies.push(enemy4);
 
