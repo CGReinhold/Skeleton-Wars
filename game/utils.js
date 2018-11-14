@@ -63,3 +63,132 @@ function addAnimations(anims) {
     repeat: -1
   });
 }
+
+function createVariables() {
+  gameOver = false;
+  lado = true;
+  isAttacking = false;
+  enemiesMovement = [];
+  enemies = [];
+  coins = [];
+  espinhos = [];
+  door = null;
+  platforms = null;
+  scoreText = null;
+  deathText = null;
+}
+
+function addEvents(context, level, nextLevel) {
+  //  Input Events
+  context.cursors = context.input.keyboard.createCursorKeys();
+  //  The score
+  scoreText = context.add.text(16, 16, 'Pontuação: ' + score, { fontSize: '32px', fill: '#FFF' });
+  deathText = context.add.text(16, 46, 'Mortes: ' + deaths, { fontSize: '32px', fill: '#FFF' });
+
+  //  Collide the player and the stars with the platforms
+  context.physics.add.collider(context.player, platforms);
+  context.physics.add.collider(door, platforms);
+
+  enemies.forEach(e => {
+    e.setBounce(0.2);
+    e.setCollideWorldBounds(true);
+    context.physics.add.collider(e, platforms);
+    context.physics.add.collider(context.player, e, (p, enemy) => {
+      if (!isAttacking) {
+        if (deaths < MAX_DEATHS - 1) {
+          deaths++;
+          deathText.setText('Mortes: ' + deaths);
+          context.scene.start(level)
+        } else {
+          context.physics.pause();
+          p.setTint(0xff0000);
+          p.anims.play('die', false);
+          gameOver = true;
+        }
+      } else {
+        enemy.destroy();
+      }
+    }, null, context);
+    enemiesMovement.push({ identifier: e.identifier, right: true });
+    setInterval(() => {
+      var myEnemy = enemiesMovement.find(enemy => enemy.identifier === e.identifier);
+      if (myEnemy) { 
+        if (myEnemy.right) {
+          e.anims.play('waitEnemy', true);
+          e.setVelocityX(120);
+          myEnemy.right = false;
+        } else {
+          e.anims.play('waitLeft', true);
+          e.setVelocityX(-120);
+          myEnemy.right = true;
+        }
+      }
+    }, 1200);
+  });
+  if (coins) {
+    coins.forEach(c => {
+      context.physics.add.collider(c, platforms);
+      //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
+      context.physics.add.overlap(context.player, c, (p, coin) => {
+        coin.disableBody(true, true);
+        score += 10;
+        scoreText.setText('Pontuação: ' + score);
+      }, null, context);      
+    });
+  }
+  if (espinhos) {
+    espinhos.forEach(e => {
+      context.physics.add.collider(e, platforms);
+      context.physics.add.overlap(context.player, e, () => {
+        if (deaths < MAX_DEATHS - 1) {
+          deaths++;
+          deathText.setText('Mortes: ' + deaths);
+          context.scene.start(level)
+        } else {
+          context.physics.pause();
+          context.player.setTint(0xff0000);
+          context.player.anims.play('die', false);
+          gameOver = true;
+        }
+      }, null, context);
+    });
+  }
+  context.physics.add.overlap(context.player, door, () => context.scene.start(nextLevel), null, context);
+}
+
+function updateScene(context) {
+  if (gameOver) {
+    return;
+  }
+
+  if (context.cursors.space.isDown) {
+    if (lado) {
+      context.player.anims.play('attack', false);
+    } else {
+      context.player.anims.play('attackLeft', false);
+    }
+    isAttacking = true;
+    setTimeout(() => {
+      isAttacking = false;
+    }, 800);
+  } if (context.cursors.left.isDown && !isAttacking) {
+    context.player.setVelocityX(-160);
+    lado = false;
+    context.player.anims.play('left', true);
+  } else if (context.cursors.right.isDown && !isAttacking) {
+    context.player.setVelocityX(160);
+    lado = true;
+    context.player.anims.play('right', true);
+  } else if (!isAttacking){
+    context.player.setVelocityX(0);
+    if (context.lado) {
+      context.player.anims.play('turnRight', true);
+    } else {
+      context.player.anims.play('turnLeft', true);
+    }
+  }
+
+  if (context.cursors.up.isDown && context.player.body.touching.down) {
+    context.player.setVelocityY(-320);
+  }
+}

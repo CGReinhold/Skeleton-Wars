@@ -1,8 +1,4 @@
 var level1State = {
-  gameOver: false,
-  lado: true,
-  isAttacking: false,
-
   create: function create() {
     var enemiesMovement = [];
     var enemies = [];
