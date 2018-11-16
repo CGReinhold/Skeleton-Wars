@@ -79,11 +79,16 @@ function createVariables() {
 }
 
 function addEvents(context, level, nextLevel) {
+  door.setCollideWorldBounds(true);
+  
   //  Input Events
   context.cursors = context.input.keyboard.createCursorKeys();
   //  The score
   scoreText = context.add.text(16, 16, 'Pontuação: ' + score, { fontSize: '32px', fill: '#FFF' });
   deathText = context.add.text(16, 46, 'Mortes: ' + deaths, { fontSize: '32px', fill: '#FFF' });
+
+  context.player.setBounce(0.2);
+  context.player.setCollideWorldBounds(true);
 
   //  Collide the player and the stars with the platforms
   context.physics.add.collider(context.player, platforms);

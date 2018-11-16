@@ -20,7 +20,6 @@ var level5State = {
     platforms.create(1150, 450, 'halfGround');
     
     door = this.physics.add.image(1200, 505, 'door');
-    door.setCollideWorldBounds(true);
 
     this.player = this.physics.add.sprite(40, 220, 'mainWait');
 
@@ -31,21 +30,13 @@ var level5State = {
     enemy2.identifier = 'segundo';
     enemies.push(enemy2);
     
-    var coin1 = this.physics.add.sprite(500, 430, 'coin');
-    coins.push(coin1);
-    var coin2 = this.physics.add.sprite(400, 430, 'coin');
-    coins.push(coin2);
-    var coin3 = this.physics.add.sprite(1200, 230, 'coin');
-    coins.push(coin3);
-
-    this.player.setBounce(0.2);
-    this.player.setCollideWorldBounds(true);
+    coins.push(this.physics.add.sprite(500, 430, 'coin'));
+    coins.push(this.physics.add.sprite(400, 430, 'coin'));
+    coins.push(this.physics.add.sprite(1200, 230, 'coin'));
+    
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 15, setXY: { x: 30, y: 515, stepX: 45 } }));
 
     addAnimations(this.anims);
-    
-    var espinho = this.physics.add.group({ key: 'espinhos', repeat: 15, setXY: { x: 30, y: 515, stepX: 45 } });
-    espinhos.push(espinho);
-    
     addEvents(this, 'level5', 'level6');
   },
 

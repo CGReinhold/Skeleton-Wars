@@ -14,7 +14,6 @@ var level3State = {
     platforms.create(750, 220, 'ground');
 
     door = this.physics.add.image(865, 505, 'door');
-    door.setCollideWorldBounds(true);
 
     this.player = this.physics.add.sprite(118, 450, 'mainWait');
 
@@ -31,18 +30,11 @@ var level3State = {
     enemy4.identifier = 'quarto';
     enemies.push(enemy4);
 
-    this.player.setBounce(0.2);
-    this.player.setCollideWorldBounds(true);
+    coins.push(this.physics.add.sprite(30, 320, 'coin'));
+    coins.push(this.physics.add.sprite(750, 350, 'coin'));
+    coins.push(this.physics.add.sprite(900, 130, 'coin'));
 
     addAnimations(this.anims);
-
-    var coin1 = this.physics.add.sprite(30, 320, 'coin');
-    coins.push(coin1);
-    var coin2 = this.physics.add.sprite(750, 350, 'coin');
-    coins.push(coin2);
-    var coin3 = this.physics.add.sprite(900, 130, 'coin');
-    coins.push(coin3);
-
     addEvents(this, 'level3', 'level4');
   },
 

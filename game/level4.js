@@ -26,7 +26,6 @@ var level4State = {
     platforms.create(1200, 370, 'wall');
 
     door = this.physics.add.image(1250, 505, 'door');
-    door.setCollideWorldBounds(true);
 
     this.player = this.physics.add.sprite(30, 80, 'mainWait');
 
@@ -34,31 +33,18 @@ var level4State = {
     enemy1.identifier = 'primeiro';
     enemies.push(enemy1);
     
-    var espinhos1 = this.physics.add.group({ key: 'espinhos', repeat: 4, setXY: { x: 20, y: 505, stepX: 43 } });
-    espinhos.push(espinhos1);
-    var espinhos2 = this.physics.add.group({ key: 'espinhos', repeat: 3, setXY: { x: 270, y: 505, stepX: 40 } });
-    espinhos.push(espinhos2);
-    var espinhos3 = this.physics.add.group({ key: 'espinhos', repeat: 3, setXY: { x: 470, y: 505, stepX: 45 } });
-    espinhos.push(espinhos3);
-    var espinhos4 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 690, y: 505, stepX: 50 } });
-    espinhos.push(espinhos4);
-    var espinhos5 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 870, y: 505, stepX: 45 } });
-    espinhos.push(espinhos5);
-    var espinhos6 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 1040, y: 505, stepX: 55 } });
-    espinhos.push(espinhos6);
-
-    this.player.setBounce(0.2);
-    this.player.setCollideWorldBounds(true);
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 4, setXY: { x: 20, y: 505, stepX: 43 } }));
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 3, setXY: { x: 270, y: 505, stepX: 40 } }));
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 3, setXY: { x: 470, y: 505, stepX: 45 } }));
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 690, y: 505, stepX: 50 } }));
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 870, y: 505, stepX: 45 } }));
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 1040, y: 505, stepX: 55 } }));
+    
+    coins.push(this.physics.add.sprite(30, 320, 'coin'));
+    coins.push(this.physics.add.sprite(700, 250, 'coin'));
+    coins.push(this.physics.add.sprite(1200, 130, 'coin'));
 
     addAnimations(this.anims);
-    
-    var coin1 = this.physics.add.sprite(30, 320, 'coin');
-    coins.push(coin1);
-    var coin2 = this.physics.add.sprite(700, 250, 'coin');
-    coins.push(coin2);
-    var coin3 = this.physics.add.sprite(1200, 130, 'coin');
-    coins.push(coin3);
-
     addEvents(this, 'level4', 'level5');
   },
 

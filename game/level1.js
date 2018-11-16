@@ -24,8 +24,7 @@ var level1State = {
     platforms.create(1100, 450, 'ground');
 
     door = this.physics.add.image(1250, 505, 'door');
-    door.setCollideWorldBounds(true);
-
+    
     this.player = this.physics.add.sprite(40, 100, 'mainWait');
 
     var enemy1 = this.physics.add.sprite(400, 450, 'enemyWait');
@@ -40,19 +39,12 @@ var level1State = {
     var enemy4 = this.physics.add.sprite(700, 50, 'enemyWait');
     enemy4.identifier = 'quarto';
     enemies.push(enemy4);
-
-    this.player.setBounce(0.2);
-    this.player.setCollideWorldBounds(true);
+    
+    coins.push(this.physics.add.sprite(30, 320, 'coin'));
+    coins.push(this.physics.add.sprite(750, 350, 'coin'));
+    coins.push(this.physics.add.sprite(900, 130, 'coin'));
 
     addAnimations(this.anims);
-    
-    var coin1 = this.physics.add.sprite(30, 320, 'coin');
-    coins.push(coin1);
-    var coin2 = this.physics.add.sprite(750, 350, 'coin');
-    coins.push(coin2);
-    var coin3 = this.physics.add.sprite(900, 130, 'coin');
-    coins.push(coin3);
-
     addEvents(this, 'level1', 'level2');
   },
 

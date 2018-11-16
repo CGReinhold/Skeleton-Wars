@@ -6,59 +6,80 @@ var level7State = {
     platforms = this.physics.add.staticGroup();
 
     platforms.create(400, 568, 'bigGround').setScale(2).refreshBody();
-    platforms.create(80, 140, 'halfGround');
-    platforms.create(300, 280, 'halfGround');
-    platforms.create(390, 280, 'halfGround');
-    platforms.create(15, 420, 'halfGround');
-    platforms.create(650, 440, 'halfGround');
-    platforms.create(700, 360, 'halfGround');
-    platforms.create(650, 190, 'halfGround');
-    platforms.create(1150, 390, 'quarterGround');
-    platforms.create(950, 304, 'quarterGround');
-    platforms.create(1150, 240, 'quarterGround');
-    platforms.create(400, 90, 'wall');
-    platforms.create(650, 340, 'wall');
-    platforms.create(900, 120, 'wall');
-    platforms.create(230, 670, 'wall');
-    platforms.create(430, 670, 'wall');
-    platforms.create(830, 670, 'wall');
-    platforms.create(1000, 670, 'wall');
-    platforms.create(1200, 370, 'wall');
+    platforms.create(100, 150, 'ground');
+    platforms.create(400, 150, 'ground');
+    platforms.create(900, 150, 'ground');
+    platforms.create(1200, 150, 'ground');
+    platforms.create(100, 250, 'ground');
+    platforms.create(400, 250, 'ground');
+    platforms.create(900, 250, 'ground');
+    platforms.create(1200, 250, 'ground');
+    platforms.create(100, 350, 'ground');
+    platforms.create(400, 350, 'ground');
+    platforms.create(900, 350, 'ground');
+    platforms.create(1200, 350, 'ground');
+    platforms.create(100, 450, 'ground');
+    platforms.create(400, 450, 'ground');
+    platforms.create(900, 450, 'ground');
+    platforms.create(1200, 450, 'ground');
 
-    door = this.physics.add.image(1250, 505, 'door');
-    door.setCollideWorldBounds(true);
+    door = this.physics.add.image(1250, 405, 'door');
 
-    this.player = this.physics.add.sprite(30, 80, 'mainWait');
+    this.player = this.physics.add.sprite(40, 100, 'mainWait');
 
-    var enemy1 = this.physics.add.sprite(270, 180, 'enemyWait');
+    var enemy1 = this.physics.add.sprite(100, 150, 'enemyWait');
     enemy1.identifier = 'primeiro';
     enemies.push(enemy1);
-    
-    var espinhos1 = this.physics.add.group({ key: 'espinhos', repeat: 4, setXY: { x: 20, y: 505, stepX: 43 } });
-    espinhos.push(espinhos1);
-    var espinhos2 = this.physics.add.group({ key: 'espinhos', repeat: 3, setXY: { x: 270, y: 505, stepX: 40 } });
-    espinhos.push(espinhos2);
-    var espinhos3 = this.physics.add.group({ key: 'espinhos', repeat: 3, setXY: { x: 470, y: 505, stepX: 45 } });
-    espinhos.push(espinhos3);
-    var espinhos4 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 690, y: 505, stepX: 50 } });
-    espinhos.push(espinhos4);
-    var espinhos5 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 870, y: 505, stepX: 45 } });
-    espinhos.push(espinhos5);
-    var espinhos6 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 1040, y: 505, stepX: 55 } });
-    espinhos.push(espinhos6);
+    var enemy2 = this.physics.add.sprite(400, 150, 'enemyWait');
+    enemy2.identifier = 'segundo';
+    enemies.push(enemy2);
+    var enemy3 = this.physics.add.sprite(800, 150, 'enemyWait');
+    enemy3.identifier = 'terceiro';
+    enemies.push(enemy3);
+    var enemy4 = this.physics.add.sprite(1100, 150, 'enemyWait');
+    enemy4.identifier = 'quarto';
+    enemies.push(enemy4);
+    var enemy5 = this.physics.add.sprite(800, 50, 'enemyWait');
+    enemy5.identifier = 'quinto';
+    enemies.push(enemy5);
+    var enemy6 = this.physics.add.sprite(1100, 50, 'enemyWait');
+    enemy6.identifier = 'sexto';
+    enemies.push(enemy6);
+    var enemy7 = this.physics.add.sprite(100, 250, 'enemyWait');
+    enemy7.identifier = 'setimo';
+    enemies.push(enemy7);
+    var enemy8 = this.physics.add.sprite(400, 250, 'enemyWait');
+    enemy8.identifier = 'oitavo';
+    enemies.push(enemy8);
+    var enemy9 = this.physics.add.sprite(800, 250, 'enemyWait');
+    enemy9.identifier = 'nono';
+    enemies.push(enemy9);
+    var enemy10 = this.physics.add.sprite(1100, 250, 'enemyWait');
+    enemy10.identifier = 'decimo';
+    enemies.push(enemy10);
+    var enemy11 = this.physics.add.sprite(100, 350, 'enemyWait');
+    enemy11.identifier = 'decimoprimeiro';
+    enemies.push(enemy11);
+    var enemy12 = this.physics.add.sprite(400, 350, 'enemyWait');
+    enemy12.identifier = 'decimosegundo';
+    enemies.push(enemy12);
+    var enemy13 = this.physics.add.sprite(100, 350, 'enemyWait');
+    enemy13.identifier = 'decimoterceiro';
+    enemies.push(enemy13);
+    var enemy14 = this.physics.add.sprite(400, 350, 'enemyWait');
+    enemy14.identifier = 'decimoquarto';
+    enemies.push(enemy14);
 
-    this.player.setBounce(0.2);
-    this.player.setCollideWorldBounds(true);
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 30, setXY: { x: 30, y: 515, stepX: 45 } }));
+
+    coins.push(this.physics.add.group({ key: 'coin', repeat: 15, setXY: { x: 740, y: 50, stepX: 45 } }));
+    coins.push(this.physics.add.group({ key: 'coin', repeat: 15, setXY: { x: 740, y: 150, stepX: 45 } }));
+    coins.push(this.physics.add.group({ key: 'coin', repeat: 15, setXY: { x: 740, y: 250, stepX: 45 } }));
+    coins.push(this.physics.add.group({ key: 'coin', repeat: 12, setXY: { x: 20, y: 150, stepX: 45 } }));
+    coins.push(this.physics.add.group({ key: 'coin', repeat: 12, setXY: { x: 20, y: 250, stepX: 45 } }));
+    coins.push(this.physics.add.group({ key: 'coin', repeat: 12, setXY: { x: 20, y: 350, stepX: 45 } }));
 
     addAnimations(this.anims);
-    
-    var coin1 = this.physics.add.sprite(30, 320, 'coin');
-    coins.push(coin1);
-    var coin2 = this.physics.add.sprite(700, 250, 'coin');
-    coins.push(coin2);
-    var coin3 = this.physics.add.sprite(1200, 130, 'coin');
-    coins.push(coin3);
-
     addEvents(this, 'level7', 'menu');
   },
 

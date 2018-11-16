@@ -18,33 +18,20 @@ var level2State = {
     platforms.create(735, 460, 'quarterGround');
 
     door = this.physics.add.image(1250, 505, 'door');
-    door.setCollideWorldBounds(true);
 
-    var espinhos1 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 135, y: 505, stepX: 40 } });
-    espinhos.push(espinhos1);
-    var espinhos2 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 285, y: 505, stepX: 40 } });
-    espinhos.push(espinhos2);
-    var espinhos3 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 435, y: 505, stepX: 40 } });
-    espinhos.push(espinhos3);
-    var espinhos4 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 585, y: 505, stepX: 40 } });
-    espinhos.push(espinhos4);
-    var espinhos5 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 735, y: 505, stepX: 40 } });
-    espinhos.push(espinhos5);
-    var espinhos6 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 885, y: 505, stepX: 40 } });
-    espinhos.push(espinhos6);
-    var espinhos7 = this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 1035, y: 505, stepX: 40 } });
-    espinhos.push(espinhos7);
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 135, y: 505, stepX: 40 } }));
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 285, y: 505, stepX: 40 } }));
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 435, y: 505, stepX: 40 } }));
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 585, y: 505, stepX: 40 } }));
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 735, y: 505, stepX: 40 } }));
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 885, y: 505, stepX: 40 } }));
+    espinhos.push(this.physics.add.group({ key: 'espinhos', repeat: 2, setXY: { x: 1035, y: 505, stepX: 40 } }));
 
     this.player = this.physics.add.sprite(50, 450, 'mainWait');
 
-    this.player.setBounce(0.2);
-    this.player.setCollideWorldBounds(true);
+    coins.push(this.physics.add.sprite(750, 350, 'coin'));
 
     addAnimations(this.anims);
-    
-    var coin2 = this.physics.add.sprite(750, 350, 'coin');
-    coins.push(coin2);
-
     addEvents(this, 'level2', 'level3');
   },
 
