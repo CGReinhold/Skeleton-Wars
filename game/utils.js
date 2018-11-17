@@ -80,7 +80,7 @@ function createVariables() {
 
 function addEvents(context, level, nextLevel) {
   door.setCollideWorldBounds(true);
-  
+
   //  Input Events
   context.cursors = context.input.keyboard.createCursorKeys();
   //  The score
@@ -109,6 +109,7 @@ function addEvents(context, level, nextLevel) {
           p.setTint(0xff0000);
           p.anims.play('die', false);
           gameOver = true;
+          context.scene.start('lose')
         }
       } else {
         enemy.destroy();
