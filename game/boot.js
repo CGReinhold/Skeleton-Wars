@@ -25,6 +25,11 @@ var bootState = {
     this.load.spritesheet('mainDie', 'assets/mainDie.png', { frameWidth: 60, frameHeight: 48 });
     this.load.spritesheet('attack', 'assets/attack.png', { frameWidth: 58, frameHeight: 48 });
     this.load.spritesheet('enemyWait', 'assets/enemyWait.png', { frameWidth: 33, frameHeight: 48 });
+
+    this.load.audio('sword', 'assets/sword.mp3');
+    this.load.audio('death', 'assets/death.mp3');
+    this.load.audio('coinSound', 'assets/coinSound.mp3');
+    this.load.audio('music', 'assets/music.mp3');
   },
 
   // `loadUpdate` runs while the loader is loading.

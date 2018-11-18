@@ -76,9 +76,22 @@ function createVariables() {
   platforms = null;
   scoreText = null;
   deathText = null;
+  sword = null;
+  death = null;
+  coinSound = null;
+  music = null;
 }
 
 function addEvents(context, level, nextLevel) {
+  sword = context.sound.add('sword');
+  death = context.sound.add('death');
+  coinSound = context.sound.add('coinSound');
+  music = context.sound.add('music');
+  // music.play();
+  // setInterval(() => {
+  //   music.play()
+  // }, 3500);
+  
   door.setCollideWorldBounds(true);
 
   //  Input Events
@@ -99,6 +112,7 @@ function addEvents(context, level, nextLevel) {
     e.setCollideWorldBounds(true);
     context.physics.add.collider(e, platforms);
     context.physics.add.collider(context.player, e, (p, enemy) => {
+      death.play();
       if (!isAttacking) {
         if (deaths < MAX_DEATHS - 1) {
           deaths++;
@@ -136,6 +150,7 @@ function addEvents(context, level, nextLevel) {
       context.physics.add.collider(c, platforms);
       //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
       context.physics.add.overlap(context.player, c, (p, coin) => {
+        coinSound.play();
         coin.disableBody(true, true);
         score += 10;
         scoreText.setText('Pontuação: ' + score);
@@ -146,6 +161,7 @@ function addEvents(context, level, nextLevel) {
     espinhos.forEach(e => {
       context.physics.add.collider(e, platforms);
       context.physics.add.overlap(context.player, e, () => {
+        death.play();
         if (deaths < MAX_DEATHS - 1) {
           deaths++;
           deathText.setText('Mortes: ' + deaths);
@@ -168,6 +184,7 @@ function updateScene(context) {
   }
 
   if (context.cursors.space.isDown) {
+    sword.play();
     if (lado) {
       context.player.anims.play('attack', false);
     } else {
