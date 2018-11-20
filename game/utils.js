@@ -62,6 +62,20 @@ function addAnimations(anims) {
     frameRate: 20,
     repeat: -1
   });
+
+  anims.create({
+    key: 'bigEnemyRight',
+    frames: anims.generateFrameNumbers('bigEnemyWait', { start: 0, end: 25 }),
+    frameRate: 20,
+    repeat: -1
+  });
+
+  anims.create({
+    key: 'bigEnemyLeft',
+    frames: anims.generateFrameNumbers('bigEnemyWait', { start: 26, end: 50 }),
+    frameRate: 20,
+    repeat: -1
+  });
 }
 
 function createVariables() {
@@ -80,6 +94,7 @@ function createVariables() {
   death = null;
   coinSound = null;
   music = null;
+  doorSound = null;
 }
 
 function addEvents(context, level, nextLevel) {
@@ -87,6 +102,7 @@ function addEvents(context, level, nextLevel) {
   death = context.sound.add('death');
   coinSound = context.sound.add('coinSound');
   music = context.sound.add('music');
+  doorSound = context.sound.add('doorSound');
   // music.play();
   // setInterval(() => {
   //   music.play()
@@ -175,7 +191,7 @@ function addEvents(context, level, nextLevel) {
       }, null, context);
     });
   }
-  context.physics.add.overlap(context.player, door, () => context.scene.start(nextLevel), null, context);
+  context.physics.add.overlap(context.player, door, () => { doorSound.play(); context.scene.start(nextLevel); }, null, context);
 }
 
 function updateScene(context) {
@@ -185,7 +201,7 @@ function updateScene(context) {
 
   if (context.cursors.space.isDown) {
     sword.play();
-    if (lado) {
+    if (context.lado) {
       context.player.anims.play('attack', false);
     } else {
       context.player.anims.play('attackLeft', false);
@@ -196,11 +212,11 @@ function updateScene(context) {
     }, 800);
   } if (context.cursors.left.isDown && !isAttacking) {
     context.player.setVelocityX(-160);
-    lado = false;
+    context.lado = false;
     context.player.anims.play('left', true);
   } else if (context.cursors.right.isDown && !isAttacking) {
     context.player.setVelocityX(160);
-    lado = true;
+    context.lado = true;
     context.player.anims.play('right', true);
   } else if (!isAttacking){
     context.player.setVelocityX(0);

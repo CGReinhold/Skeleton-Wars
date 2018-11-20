@@ -1,7 +1,7 @@
 var level7State = {
   create: function create() {
     createVariables();
-    this.add.image(600, 300, 'sky');
+    this.add.image(600, 300, 'day7');
 
     platforms = this.physics.add.staticGroup();
 
@@ -80,7 +80,7 @@ var level7State = {
     coins.push(this.physics.add.group({ key: 'coin', repeat: 12, setXY: { x: 20, y: 350, stepX: 45 } }));
 
     addAnimations(this.anims);
-    addEvents(this, 'level7', 'menu');
+    addEvents(this, 'level7', 'level8');
   },
 
   update: function update() {

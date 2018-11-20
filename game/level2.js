@@ -1,7 +1,7 @@
 var level2State = {
   create: function create() {
     createVariables();
-    this.add.image(600, 300, 'sky');
+    this.add.image(600, 300, 'day2');
 
     platforms = this.physics.add.staticGroup();
 

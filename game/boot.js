@@ -10,6 +10,14 @@ var bootState = {
 
   preload: function preload() {
     this.load.image('sky', 'assets/sky.png');
+    this.load.image('day1', 'assets/day1.png');
+    this.load.image('day2', 'assets/day2.png');
+    this.load.image('day3', 'assets/day3.png');
+    this.load.image('day4', 'assets/day4.png');
+    this.load.image('day5', 'assets/day5.png');
+    this.load.image('day6', 'assets/day6.png');
+    this.load.image('day7', 'assets/day7.png');
+    this.load.image('day8', 'assets/day8.png');
     this.load.image('wall', 'assets/wall.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('halfGround', 'assets/halfPlatform.png');
@@ -19,16 +27,17 @@ var bootState = {
     this.load.image('door', 'assets/door.png');
     this.load.image('espinhos', 'assets/espinhos.png');
     this.load.image('coin', 'assets/moeda.png');
-    this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
     this.load.spritesheet('mainWalk', 'assets/mainWalk.png', { frameWidth: 42, frameHeight: 48 });
     this.load.spritesheet('mainWait', 'assets/mainWait.png', { frameWidth: 42, frameHeight: 48 });
     this.load.spritesheet('mainDie', 'assets/mainDie.png', { frameWidth: 60, frameHeight: 48 });
     this.load.spritesheet('attack', 'assets/attack.png', { frameWidth: 58, frameHeight: 48 });
     this.load.spritesheet('enemyWait', 'assets/enemyWait.png', { frameWidth: 33, frameHeight: 48 });
+    this.load.spritesheet('bigEnemyWait', 'assets/bigEnemyWait.png', { frameWidth: 165, frameHeight: 240 });
 
-    this.load.audio('sword', 'assets/sword.mp3');
+    this.load.audio('sword', 'assets/sword.wav');
     this.load.audio('death', 'assets/death.mp3');
-    this.load.audio('coinSound', 'assets/coinSound.mp3');
+    this.load.audio('doorSound', 'assets/doorSound.wav');
+    this.load.audio('coinSound', 'assets/coinSound.wav');
     this.load.audio('music', 'assets/music.mp3');
   },
 
