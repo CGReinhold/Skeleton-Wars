@@ -4,7 +4,7 @@ Platform game created to test Phaser game framework
 
 ## How to execute
 
-Just clone the project and open the `index.html` file
+Just clone the project and execute the `index.html` file
 
 ## How to play
 
